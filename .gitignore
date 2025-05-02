@@ -1,2 +1,4 @@
-*.pdf
-*.pptx
+# Ignorar propriedades locais evitando conflitos e sobreposição
+**/.pbi/localSettings.json
+# Ignorar arquivos de cache de dados
+**/.pbi/cache.abf

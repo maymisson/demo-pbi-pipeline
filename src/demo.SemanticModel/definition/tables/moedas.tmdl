@@ -1,0 +1,65 @@
+table moedas
+	lineageTag: 9de49c1b-be35-4d85-961a-aee3eb487219
+
+	column Moeda
+		dataType: string
+		lineageTag: 4391da72-1819-4727-939b-6adc5296f1e7
+		summarizeBy: none
+		sourceColumn: Moeda
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nome
+		dataType: string
+		lineageTag: 7b4a695a-fb57-46a5-ba2b-578e73c10693
+		summarizeBy: none
+		sourceColumn: Nome
+
+		annotation SummarizationSetBy = Automatic
+
+	column Formato
+		dataType: string
+		lineageTag: 0517e6ae-b662-4bce-99db-e138a3bc1212
+		summarizeBy: none
+		sourceColumn: Formato
+
+		annotation SummarizationSetBy = Automatic
+
+	partition moedas = m
+		mode: import
+		queryGroup: Dimensões
+		source = ```
+				let
+				    source = Table.FromRows(
+				        {
+				            {"BRL", "Real brasileiro", "R$ #,##0.00;R$ #,##0.00;-"},
+				            {"AUD", "Dólar australiano", "$ #,##0.00;$ #,##0.00;-"},
+				            {"CAD", "Dólar canadense", "$ #,##0.00;$ #,##0.00;-"},
+				            {"CHF", "Franco suíço", "Fr #,##0.00;Fr #,##0.00;-"},
+				            {"DKK", "Coroa dinamarquesa", "kr #,##0.00;kr #,##0.00;-"},
+				            {"EUR", "Euro", "€ #,##0.00;€ #,##0.00;-"},
+				            {"GBP", "Libra Esterlina", "£ #,##0.00;£ #,##0.00;-"},
+				            {"JPY", "Iene", "¥ #,##0;¥ #,##0;-"},
+				            {"NOK", "Coroa norueguesa", "kr #,##0.00;kr #,##0.00;-"},
+				            {"SEK", "Coroa sueca", "kr #,##0.00;kr #,##0.00;-"},
+				            {"USD", "Dólar dos Estados Unidos", "$ #,##0.00;$ #,##0.00;-"}
+				        },
+				        {"Moeda", "Nome", "Formato"}
+				    ),
+				    
+				    changedType = Table.TransformColumnTypes(
+				        source,{
+				            {"Moeda", type text}, 
+				            {"Nome", type text}, 
+				            {"Formato", type text}
+				        }
+				    )
+				
+				in
+				    changedType
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,60 @@
+table cotacoes
+	lineageTag: 9ed476d2-4577-4b32-9105-c13eaa3bc207
+
+	column Moeda
+		dataType: string
+		lineageTag: 4e8fc4ca-c641-4391-ad70-ab399003fece
+		summarizeBy: none
+		sourceColumn: Moeda
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataHora
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 673f8536-2cbc-4182-8234-7ffab4f4b8eb
+		summarizeBy: none
+		sourceColumn: DataHora
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cotacao
+		dataType: double
+		lineageTag: 5038af98-9f77-49d6-8f3e-3519b9b8c3ef
+		summarizeBy: average
+		sourceColumn: Cotacao
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TipoBoletim
+		dataType: string
+		lineageTag: 9db50130-b232-48ed-b244-97435faaada8
+		summarizeBy: none
+		sourceColumn: TipoBoletim
+
+		annotation SummarizationSetBy = Automatic
+
+	column Data
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 919f8a32-38e0-45d8-9039-79efe966b602
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	partition cotacoes = m
+		mode: import
+		queryGroup: Fatos
+		source = getCotacoes(data_inicial, data_final)
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
